@@ -1,33 +1,28 @@
-# Use an official Python base image
+# Base image
 FROM python:3.10-slim
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    libsndfile1 \
-    curl \
-    git \
-    && rm -rf /var/lib/apt/lists/*
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set working directory
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set work directory
 WORKDIR /app
 
-# Copy dependency lists
-COPY requirements.txt .
+# Copy files
+COPY . /app
 
 # Install Python dependencies
 RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
-# Copy application files
-COPY . .
-
-# Expose FastAPI port
+# Expose port for FastAPI
 EXPOSE 8000
 
-# Start FastAPI server
+# Run the FastAPI app using uvicorn
 CMD ["uvicorn", "orchestrator.main:app", "--host", "0.0.0.0", "--port", "8000"]
