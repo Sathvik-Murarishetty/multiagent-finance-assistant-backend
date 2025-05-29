@@ -1,0 +1,20 @@
+# Core Frameworks
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Audio
+gtts
+pydub
+faster-whisper
+
+# LLM + RAG
+requests
+python-dotenv
+sentence-transformers
+
+# Vector DB
+faiss-cpu
+
+# Finance APIs & Scraping
+yfinance
